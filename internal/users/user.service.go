@@ -3,17 +3,22 @@ package users
 import (
 	"go-minstack/internal/users/dto"
 	user_entities "go-minstack/internal/users/entities"
+	"log/slog"
 
 	"github.com/go-minstack/repository"
 	"github.com/google/uuid"
 )
 
 type UserService struct {
+	log   *slog.Logger
 	users *user_entities.UserRepository
 }
 
-func NewUserService(users *user_entities.UserRepository) *UserService {
-	return &UserService{users: users}
+func NewUserService(log *slog.Logger, users *user_entities.UserRepository) *UserService {
+	return &UserService{
+		log:   log,
+		users: users,
+	}
 }
 
 func (s *UserService) Create(input dto.CreateUserDto) (*dto.UserDto, error) {
@@ -25,6 +30,7 @@ func (s *UserService) Create(input dto.CreateUserDto) (*dto.UserDto, error) {
 		return nil, err
 	}
 	result := dto.NewUserDto(user)
+	s.log.Info("user created", "name", result.Name)
 	return &result, nil
 }
 
@@ -52,6 +58,7 @@ func (s *UserService) Update(id string, input dto.UpdateUserDto) (*dto.UserDto, 
 		return nil, err
 	}
 	result := dto.NewUserDto(user)
+	s.log.Info("user updated", "name", result.Name)
 	return &result, nil
 }
 

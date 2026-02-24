@@ -8,12 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-minstack/core"
 	mgin "github.com/go-minstack/gin"
+	"github.com/go-minstack/logger"
 	"github.com/go-minstack/sqlite"
 	"gorm.io/gorm"
 )
 
 func main() {
-	app := core.New(mgin.Module(), sqlite.Module())
+	app := core.New(mgin.Module(), sqlite.Module(), logger.Module())
 
 	// users domain
 	app.Provide(user_entities.NewUserRepository)
