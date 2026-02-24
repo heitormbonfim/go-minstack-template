@@ -46,8 +46,8 @@ func (s *UserService) List() ([]dto.UserDto, error) {
 	return dtos, nil
 }
 
-func (s *UserService) Update(id string, input dto.UpdateUserDto) (*dto.UserDto, error) {
-	user, err := s.users.FindByStringID(id)
+func (s *UserService) Update(id uuid.UUID, input dto.UpdateUserDto) (*dto.UserDto, error) {
+	user, err := s.users.FindByID(id)
 	if err != nil {
 		return nil, err
 	}

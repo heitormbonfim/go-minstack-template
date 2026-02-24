@@ -24,7 +24,3 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 func (r *UserRepository) FindByEmail(email string) (*User, error) {
 	return r.FindOne(repository.Where("email = ?", email))
 }
-
-func (r *UserRepository) FindByStringID(id string) (*User, error) {
-	return r.FindOne(repository.Where("id = ?", id))
-}

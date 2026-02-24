@@ -40,7 +40,11 @@ func (c *UserController) create(ctx *gin.Context) {
 }
 
 func (c *UserController) update(ctx *gin.Context) {
-	id := ctx.Param("id")
+	id, err := uuid.Parse(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	var input dto.UpdateUserDto
 	if err := ctx.ShouldBindJSON(&input); err != nil {
