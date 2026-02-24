@@ -17,7 +17,7 @@ func main() {
 	app := core.New(mgin.Module(), sqlite.Module(), logger.Module())
 
 	// users domain
-	app.Provide(user_entities.NewUserRepository)
+	app.Provide(users.NewUserRepository)
 	app.Provide(users.NewUserService)
 	app.Provide(users.NewUserController)
 	app.Invoke(users.RegisterRoutes)

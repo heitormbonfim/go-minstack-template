@@ -11,10 +11,10 @@ import (
 
 type UserService struct {
 	log   *slog.Logger
-	users *user_entities.UserRepository
+	users *UserRepository
 }
 
-func NewUserService(log *slog.Logger, users *user_entities.UserRepository) *UserService {
+func NewUserService(log *slog.Logger, users *UserRepository) *UserService {
 	return &UserService{
 		log:   log,
 		users: users,
