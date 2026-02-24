@@ -3,6 +3,7 @@ package users
 import (
 	"go-minstack/internal/users/dto"
 	user_entities "go-minstack/internal/users/entities"
+	"go-minstack/internal/users/repositories"
 	"log/slog"
 
 	"github.com/go-minstack/repository"
@@ -11,10 +12,10 @@ import (
 
 type UserService struct {
 	log   *slog.Logger
-	users *UserRepository
+	users *repositories.UserRepository
 }
 
-func NewUserService(log *slog.Logger, users *UserRepository) *UserService {
+func NewUserService(log *slog.Logger, users *repositories.UserRepository) *UserService {
 	return &UserService{
 		log:   log,
 		users: users,

@@ -3,6 +3,7 @@ package main
 import (
 	"go-minstack/internal/users"
 	user_entities "go-minstack/internal/users/entities"
+	"go-minstack/internal/users/repositories"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,7 @@ func main() {
 	app := core.New(mgin.Module(), sqlite.Module(), logger.Module())
 
 	// users domain
-	app.Provide(users.NewUserRepository)
+	app.Provide(repositories.NewUserRepository)
 	app.Provide(users.NewUserService)
 	app.Provide(users.NewUserController)
 	app.Invoke(users.RegisterRoutes)

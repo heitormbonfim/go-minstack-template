@@ -1,4 +1,4 @@
-package users
+package repositories
 
 import (
 	user_entities "go-minstack/internal/users/entities"
