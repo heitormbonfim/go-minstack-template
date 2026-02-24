@@ -39,11 +39,20 @@ func (s *UserService) List() ([]dto.UserDto, error) {
 	if err != nil {
 		return nil, err
 	}
-	dtos := make([]dto.UserDto, len(users))
+	result := make([]dto.UserDto, len(users))
 	for i, u := range users {
-		dtos[i] = dto.NewUserDto(&u)
+		result[i] = dto.NewUserDto(&u)
 	}
-	return dtos, nil
+	return result, nil
+}
+
+func (s *UserService) FindUserByID(id uuid.UUID) (*dto.UserDto, error) {
+	user, err := s.users.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+	result := dto.NewUserDto(user)
+	return &result, nil
 }
 
 func (s *UserService) Update(id uuid.UUID, input dto.UpdateUserDto) (*dto.UserDto, error) {

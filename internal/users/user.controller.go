@@ -25,6 +25,22 @@ func (c *UserController) list(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, users)
 }
 
+func (c *UserController) get(ctx *gin.Context) {
+	id, err := uuid.Parse(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user, err := c.service.FindUserByID(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, user)
+}
+
 func (c *UserController) create(ctx *gin.Context) {
 	var input dto.CreateUserDto
 	if err := ctx.ShouldBindJSON(&input); err != nil {
