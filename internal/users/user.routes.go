@@ -1,12 +1,12 @@
 package users
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/go-minstack/auth"
+)
 
-func RegisterRoutes(r *gin.Engine, c *UserController) {
+func RegisterRoutes(r *gin.Engine, c *UserController, jwt *auth.JwtService) {
 	g := r.Group("/api/users")
-	g.GET("/", c.list)
-	g.GET("/:id", c.get)
-	g.POST("/", c.create)
-	g.PUT("/:id", c.update)
-	g.DELETE("/:id", c.delete)
+	g.POST("/register", c.register)
+	g.GET("/me", auth.Authenticate(jwt), c.me)
 }
