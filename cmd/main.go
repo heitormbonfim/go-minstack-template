@@ -1,37 +1,38 @@
 package main
 
 import (
-	"go-minstack/internal/users"
-	user_entities "go-minstack/internal/users/entities"
-	"go-minstack/internal/users/repositories"
+	"go-minstack-task/internal/authn"
+	"go-minstack-task/internal/tasks"
+	task_entities "go-minstack-task/internal/tasks/entities"
+	"go-minstack-task/internal/users"
+	user_entities "go-minstack-task/internal/users/entities"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-minstack/auth"
 	"github.com/go-minstack/core"
 	mgin "github.com/go-minstack/gin"
-	"github.com/go-minstack/logger"
 	"github.com/go-minstack/sqlite"
 	"gorm.io/gorm"
 )
 
 func main() {
-	app := core.New(mgin.Module(), sqlite.Module(), logger.Module())
+	app := core.New(mgin.Module(), sqlite.Module(), auth.Module())
 
-	// users domain
-	app.Provide(repositories.NewUserRepository)
-	app.Provide(users.NewUserService)
-	app.Provide(users.NewUserController)
-	app.Invoke(users.RegisterRoutes)
+	users.Register(app)
+	authn.Register(app)
+	tasks.Register(app)
+
 	app.Invoke(migrate)
-
-	// healthcheck
 	app.Invoke(pingRoutes)
-
 	app.Run()
 }
 
 func migrate(db *gorm.DB) error {
-	return db.AutoMigrate(&user_entities.User{})
+	return db.AutoMigrate(
+		&user_entities.User{},
+		&task_entities.Task{},
+	)
 }
 
 func pingRoutes(r *gin.Engine) {
